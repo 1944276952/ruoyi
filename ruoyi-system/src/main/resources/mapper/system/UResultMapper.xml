@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UResultMapper">
+    
+    <resultMap type="UResult" id="UResultResult">
+        <result property="resultId"    column="result_id"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="resourceType"    column="resource_type"    />
+        <result property="isPass"    column="is_pass"    />
+        <result property="userId"    column="user_id"    />
+        <result property="ext1"    column="ext1"    />
+        <result property="ext2"    column="ext2"    />
+        <result property="ext3"    column="ext3"    />
+        <result property="ext4"    column="ext4"    />
+        <result property="ext5"    column="ext5"    />
+    </resultMap>
+
+    <sql id="selectUResultVo">
+        select result_id, resource_id, resource_type, is_pass, user_id, ext1, ext2, ext3, ext4, ext5 from u_result
+    </sql>
+
+    <select id="selectUResultList" parameterType="UResult" resultMap="UResultResult">
+        <include refid="selectUResultVo"/>
+        <where>  
+            <if test="resourceId != null "> and resource_id = #{resourceId}</if>
+            <if test="resourceType != null "> and resource_type = #{resourceType}</if>
+            <if test="isPass != null "> and is_pass = #{isPass}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="ext1 != null  and ext1 != ''"> and ext1 = #{ext1}</if>
+            <if test="ext2 != null  and ext2 != ''"> and ext2 = #{ext2}</if>
+            <if test="ext3 != null  and ext3 != ''"> and ext3 = #{ext3}</if>
+            <if test="ext4 != null  and ext4 != ''"> and ext4 = #{ext4}</if>
+            <if test="ext5 != null "> and ext5 = #{ext5}</if>
+        </where>
+    </select>
+    
+    <select id="selectUResultById" parameterType="Long" resultMap="UResultResult">
+        <include refid="selectUResultVo"/>
+        where result_id = #{resultId}
+    </select>
+        
+    <insert id="insertUResult" parameterType="UResult" useGeneratedKeys="true" keyProperty="resultId">
+        insert into u_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">resource_id,</if>
+            <if test="resourceType != null">resource_type,</if>
+            <if test="isPass != null">is_pass,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="ext1 != null">ext1,</if>
+            <if test="ext2 != null">ext2,</if>
+            <if test="ext3 != null">ext3,</if>
+            <if test="ext4 != null">ext4,</if>
+            <if test="ext5 != null">ext5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="resourceType != null">#{resourceType},</if>
+            <if test="isPass != null">#{isPass},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="ext1 != null">#{ext1},</if>
+            <if test="ext2 != null">#{ext2},</if>
+            <if test="ext3 != null">#{ext3},</if>
+            <if test="ext4 != null">#{ext4},</if>
+            <if test="ext5 != null">#{ext5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUResult" parameterType="UResult">
+        update u_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resourceId != null">resource_id = #{resourceId},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="isPass != null">is_pass = #{isPass},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="ext1 != null">ext1 = #{ext1},</if>
+            <if test="ext2 != null">ext2 = #{ext2},</if>
+            <if test="ext3 != null">ext3 = #{ext3},</if>
+            <if test="ext4 != null">ext4 = #{ext4},</if>
+            <if test="ext5 != null">ext5 = #{ext5},</if>
+        </trim>
+        where result_id = #{resultId}
+    </update>
+
+    <delete id="deleteUResultById" parameterType="Long">
+        delete from u_result where result_id = #{resultId}
+    </delete>
+
+    <delete id="deleteUResultByIds" parameterType="String">
+        delete from u_result where result_id in 
+        <foreach item="resultId" collection="array" open="(" separator="," close=")">
+            #{resultId}
+        </foreach>
+    </delete>
+
+</mapper>

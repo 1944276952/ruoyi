@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UMessageMapper">
+    
+    <resultMap type="UMessage" id="UMessageResult">
+        <result property="messageId"    column="message_id"    />
+        <result property="objectId"    column="object_id"    />
+        <result property="objectType"    column="object_type"    />
+        <result property="content"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="ext1"    column="ext1"    />
+        <result property="ext2"    column="ext2"    />
+        <result property="ext3"    column="ext3"    />
+        <result property="ext4"    column="ext4"    />
+        <result property="ext5"    column="ext5"    />
+    </resultMap>
+
+    <sql id="selectUMessageVo">
+        select message_id, object_id, object_type, content, create_time, create_user_id, create_user_name, ext1, ext2, ext3, ext4, ext5 from u_message
+    </sql>
+
+    <select id="selectUMessageList" parameterType="UMessage" resultMap="UMessageResult">
+        <include refid="selectUMessageVo"/>
+        <where>  
+            <if test="objectId != null "> and object_id = #{objectId}</if>
+            <if test="objectType != null "> and object_type = #{objectType}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="createUserName != null  and createUserName != ''"> and create_user_name like concat('%', #{createUserName}, '%')</if>
+            <if test="ext1 != null  and ext1 != ''"> and ext1 = #{ext1}</if>
+            <if test="ext2 != null  and ext2 != ''"> and ext2 = #{ext2}</if>
+            <if test="ext3 != null  and ext3 != ''"> and ext3 = #{ext3}</if>
+            <if test="ext4 != null  and ext4 != ''"> and ext4 = #{ext4}</if>
+            <if test="ext5 != null "> and ext5 = #{ext5}</if>
+        </where>
+    </select>
+    
+    <select id="selectUMessageById" parameterType="Long" resultMap="UMessageResult">
+        <include refid="selectUMessageVo"/>
+        where message_id = #{messageId}
+    </select>
+        
+    <insert id="insertUMessage" parameterType="UMessage" useGeneratedKeys="true" keyProperty="messageId">
+        insert into u_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="objectId != null">object_id,</if>
+            <if test="objectType != null">object_type,</if>
+            <if test="content != null">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserName != null">create_user_name,</if>
+            <if test="ext1 != null">ext1,</if>
+            <if test="ext2 != null">ext2,</if>
+            <if test="ext3 != null">ext3,</if>
+            <if test="ext4 != null">ext4,</if>
+            <if test="ext5 != null">ext5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="objectId != null">#{objectId},</if>
+            <if test="objectType != null">#{objectType},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserName != null">#{createUserName},</if>
+            <if test="ext1 != null">#{ext1},</if>
+            <if test="ext2 != null">#{ext2},</if>
+            <if test="ext3 != null">#{ext3},</if>
+            <if test="ext4 != null">#{ext4},</if>
+            <if test="ext5 != null">#{ext5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUMessage" parameterType="UMessage">
+        update u_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="objectId != null">object_id = #{objectId},</if>
+            <if test="objectType != null">object_type = #{objectType},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserName != null">create_user_name = #{createUserName},</if>
+            <if test="ext1 != null">ext1 = #{ext1},</if>
+            <if test="ext2 != null">ext2 = #{ext2},</if>
+            <if test="ext3 != null">ext3 = #{ext3},</if>
+            <if test="ext4 != null">ext4 = #{ext4},</if>
+            <if test="ext5 != null">ext5 = #{ext5},</if>
+        </trim>
+        where message_id = #{messageId}
+    </update>
+
+    <delete id="deleteUMessageById" parameterType="Long">
+        delete from u_message where message_id = #{messageId}
+    </delete>
+
+    <delete id="deleteUMessageByIds" parameterType="String">
+        delete from u_message where message_id in 
+        <foreach item="messageId" collection="array" open="(" separator="," close=")">
+            #{messageId}
+        </foreach>
+    </delete>
+
+</mapper>

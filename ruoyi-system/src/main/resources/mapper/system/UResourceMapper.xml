@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectUResourceList" parameterType="UResource" resultMap="UResourceResult">
         <include refid="selectUResourceVo"/>
         <where>  
-            <if test="resourceTitle != null  and resourceTitle != ''"> and resource_title = #{resourceTitle}</if>
+            <if test="resourceTitle != null  and resourceTitle != ''"> and resource_title like concat('%', #{resourceTitle},'%')</if>
             <if test="resourceType != null "> and resource_type = #{resourceType}</if>
             <if test="resourceSubType != null "> and resource_sub_type = #{resourceSubType}</if>
             <if test="resourceContent != null  and resourceContent != ''"> and resource_content = #{resourceContent}</if>
